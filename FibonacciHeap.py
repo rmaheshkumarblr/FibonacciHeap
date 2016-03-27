@@ -17,6 +17,7 @@ class FibonacciHeap:
             self.parent = self.child = self.left = self.right = None
             self.mark = False
 
+    # Inserting a new node into a Fibonacci Heap
     def Insert(self,x):
         # Creating a Fibonacci Node ( A Fibonacci Heap )
         n = self.Node(x)
@@ -27,6 +28,10 @@ class FibonacciHeap:
         if ( self.minNode is None or n.x < self.minNode.x ):
             self.minNode = n
         self.totalNodes += 1
+
+    # Finding the minimum node
+    def findMinNode(self):
+        return self.minNode
 
 
     def mergeWithRootList(self,node):
