@@ -11,8 +11,8 @@ class FibonacciHeap:
 
     # Based on the parameters present in pg 480 of Introduction to Algorithms (Cormen)
     class Node:
-        def __init__(self,x):
-            self.x = x
+        def __init__(self,key):
+            self.key = key
             self.degree = 0
             self.parent = self.child = self.left = self.right = None
             self.mark = False
@@ -25,7 +25,7 @@ class FibonacciHeap:
         n.left = n.right = n
         # Concatenate the root list containing x with root list H
         self.mergeNewNodeWithRootList(n)
-        if ( self.minNode is None or n.x < self.minNode.x ):
+        if ( self.minNode is None or n.key < self.minNode.key ):
             self.minNode = n
         self.totalNodes += 1
 
@@ -43,16 +43,94 @@ class FibonacciHeap:
         # Concatenate the root list of h2 with the root list of h1
         self.mergeRootListWithExistingRootList(h1,h2)
         # Update minNode if required
-        if ( h1.minNode is None or (h2.minNode is not None and h2.minNode.x < h1.minNode.x) ):
+        if ( h1.minNode is None or (h2.minNode is not None and h2.minNode.key < h1.minNode.key) ):
             h1.minNode = h2.minNode
         # Update total Nodes
         h1.totalNodes = self.totalNodes + h2.totalNodes
         # return the Fibonacci Heap
         return h1
 
+    # Extracting the Minimum Node
+    def extractMin(self):
+        z = self.minNode
+        if ( z is not None ):
+            # Get children of the of the minNode
+            children = self.iterateNodeDoubleLinkList(z.child)
+            # Add the node's children to the root list of H
+            for x in xrange(0,len(children)):
+                self.mergeNewNodeWithRootList(children[x])
+                children[x].parent = None
+        # Remove z from the root list of H
+        self.removeFromRootList(z)
+        # Updating the minNode with the smallest value
+        if z == z.right: # No other elements present
+            self.minNode = None
+        else:
+            self.minNode = z.right
+            # Need to find the actual min node hence use consolidate
+            self.consolidate()
+        self.totalNodes -= 1
+        return z
+
+    # Reduce number of trees in the Fibonacci Heap is consolidating the root list of H
+    def consolidate(self):
+        # Create an array with Null value - Size is same as the total number of Nodes.
+        A = [None] * self.totalNodes
+        # Get all the nodes in the root list
+        rootListNodes = self.iterateNodeDoubleLinkList(self.rootList)
+        for w in xrange(0, len(rootListNodes)):
+            x = rootListNodes[w]
+            d = x.degree
+            while A[d] is not None:
+                y = A[d]  # Check for multiple nodes with the same degree
+                if x.key > y.key:
+                    temp = x
+                    x = y
+                    y = temp
+                self.heapLink(y,x)
+                A[d] = None
+                d += 1
+            A[d] = x
+        #Assuming the minNode to be null for now.
+        self.minNode = None
+        for i in xrange(0,len(A)):
+            if A[i] is not None:
+                if self.minNode is None or A[i].key < self.minNode.key:
+                    self.minNode = A[i]
+
+    # Remove node y from the rootList and add it is a child to x and maintain the double linked list
+    def heap_link(self,y,x):
+        self.removeFromRootList(y)
+        y.left = y.right = y # Making the node independent
+        self.mergeWithChild(x,y) # Merge y with the child of x
+        x.degree += 1
+        y.parent = x
+        y.mark = False
+
+    # Remove a node from the double linked root list of H
+    def removeFromRootList(self,node):
+        if node == self.rootList:
+            self.rootList = node.right
+        node.left.right = node.right
+        node.right.left = node.left
+
+    # Iterating over the Double Linked List
+    def iterateNodeDoubleLinkList(self,node):
+        if node is None:
+            return None
+        else:
+            startNode = node
+            childList = []
+            while True:
+                childList.append(node)
+                node = node.right
+                if node == startNode:
+                    break;
+        return childList
 
 
 
+    # Joining two Double Linked Root List
     def mergeRootListWithExistingRootList(self,h1,h2):
         tempStorage = h2.rootList.left
         h2.rootList.left = h1.rootList.left
@@ -61,7 +139,7 @@ class FibonacciHeap:
         h1.rootList.left.right = h1.rootList
 
 
-
+    # Joining a Node to a Double Linked Root List
     def mergeNewNodeWithRootList(self,node):
         if self.rootList is None:
             self.rootList = node
@@ -72,6 +150,18 @@ class FibonacciHeap:
             # Note: Insertion of a node between two double-linkedList nodes
             self.rootList.right.left = node
             self.rootList.right = node
+
+    # Joining a Node to the child of a given parent node
+    def mergeWithChild(self,parent,node):
+        if parent.child is None: # If parent has no child initially
+            parent.child = node
+        else:
+            node.right = parent.child.right
+            node.left = parent.child
+            parent.child.right.left = node
+            parent.child.right = node
+
+
 
 
 
