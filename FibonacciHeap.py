@@ -161,8 +161,45 @@ class FibonacciHeap:
             parent.child.right.left = node
             parent.child.right = node
 
+    # Decreasing a key and deleting a node
+    def decreaseKey(self,x,k):
+        if k > x.key :
+            return None # New key is greater than current key
+        x.key = k
+        y = x.parent
+        if y is not None and x.key < y.key:
+            self.cut(x,y)
+            self.cascading_cut(y)
+        if x.key < self.minNode.key:
+            self.minNode = x
 
+    # If child node was smaller than its parent after the change in decreaseKey then we cut the child and bring it to the root list
+    def cut(self,x,y):
+        self.removeFromChildList(y,x)
+        y.degree -= 1
+        self.mergeNewNodeWithRootList(x)
+        x.parent = None
+        x.mark = False
 
+    # Remove a node x from it's parent y
+    def removeFromChildList(self,parent,node):
+        if parent.child == parent.child.right: # Only one child exists
+            parent.child = None
+        elif parent.child == node:
+            parent.child = node.right
+            node.right.parent = parent
+        node.left.right = node.right
+        node.right.left = node.left
+
+    # Cascading cut of parent node
+    def cascadingCut(self,y):
+        z = y.parent
+        if z is not None:
+            if y.mark is False:
+                y.mark = True
+            else:
+                self.cut(y,z)
+                self.cascadingCut(z)
 
 
 
