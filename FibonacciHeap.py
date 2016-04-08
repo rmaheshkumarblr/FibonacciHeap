@@ -54,22 +54,23 @@ class FibonacciHeap:
     def extractMin(self):
         z = self.minNode
         if ( z is not None ):
-            # Get children of the of the minNode
-            children = self.iterateNodeDoubleLinkList(z.child)
-            # Add the node's children to the root list of H
-            for x in xrange(0,len(children)):
-                self.mergeNewNodeWithRootList(children[x])
-                children[x].parent = None
-        # Remove z from the root list of H
-        self.removeFromRootList(z)
-        # Updating the minNode with the smallest value
-        if z == z.right: # No other elements present
-            self.minNode = None
-        else:
-            self.minNode = z.right
-            # Need to find the actual min node hence use consolidate
-            self.consolidate()
-        self.totalNodes -= 1
+            if z.child is not None:
+                # Get children of the of the minNode
+                children = self.iterateNodeDoubleLinkList(z.child)
+                # Add the node's children to the root list of H
+                for x in xrange(0,len(children)):
+                    self.mergeNewNodeWithRootList(children[x])
+                    children[x].parent = None
+            # Remove z from the root list of H
+            self.removeFromRootList(z)
+            # Updating the minNode with the smallest value
+            if z == z.right: # No other elements present
+                self.minNode = None
+            else:
+                self.minNode = z.right
+                # Need to find the actual min node hence use consolidate
+                self.consolidate()
+            self.totalNodes -= 1
         return z
 
     # Reduce number of trees in the Fibonacci Heap is consolidating the root list of H
@@ -99,7 +100,7 @@ class FibonacciHeap:
                     self.minNode = A[i]
 
     # Remove node y from the rootList and add it is a child to x and maintain the double linked list
-    def heap_link(self,y,x):
+    def heapLink(self,y,x):
         self.removeFromRootList(y)
         y.left = y.right = y # Making the node independent
         self.mergeWithChild(x,y) # Merge y with the child of x
@@ -202,6 +203,44 @@ class FibonacciHeap:
                 self.cascadingCut(z)
 
 
+
+if __name__ == '__main__':
+
+    fibonacciHeap = FibonacciHeap();
+
+    fibonacciHeap.insert(10)
+    fibonacciHeap.insert(2)
+    fibonacciHeap.insert(15)
+    fibonacciHeap.insert(6)
+
+    m = fibonacciHeap.findMinNode()
+    print "Minimum Element: " , m.key
+
+    # print "Fibonacci Heap RootList: " , fibonacciHeap.rootList.key
+    # print "Fibonacci Heap RootList Right: " , fibonacciHeap.rootList.right.key
+    # print "Fibonacci Heap RootList Right Right: " , fibonacciHeap.rootList.right.right.key
+    # print "Fibonacci Heap RootList Right Right Right: " , fibonacciHeap.rootList.right.right.right.key
+    # print "Fibonacci Heap RootList Right Right Right Right: " , fibonacciHeap.rootList.right.right.right.right.key
+
+    e = fibonacciHeap.extractMin()
+    print "Removed Minimum Element: " , e.key
+
+    e2 = fibonacciHeap.extractMin()
+    print "Removed Minimum Element: " , e2.key
+
+    fibonacciHeap2 = FibonacciHeap();
+    fibonacciHeap2.insert(100);
+    fibonacciHeap2.insert(56);
+
+    fibonacciHeap3 = fibonacciHeap.union(fibonacciHeap2);
+    x = fibonacciHeap3.rootList.right
+    print "Value of X: " , x.key
+    fibonacciHeap3.decreaseKey(x,1)
+
+    print [x.key for x in fibonacciHeap3.iterateNodeDoubleLinkList(fibonacciHeap3.rootList)]
+
+    q = fibonacciHeap3.extractMin()
+    print "Key of q: " , q.key;
 
 
 
