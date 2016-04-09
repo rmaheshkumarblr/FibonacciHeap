@@ -1,3 +1,5 @@
+import unittest
+
 #Creating a node class that contains all the parameter a node used in Fibonacci must have.
 
 class FibonacciHeap:
@@ -80,6 +82,7 @@ class FibonacciHeap:
         # Get all the nodes in the root list
         rootListNodes = self.iterateNodeDoubleLinkList(self.rootList)
         for w in xrange(0, len(rootListNodes)):
+            #print  "Intermediate Root List: " , [x.key for x in fibonacciHeap.iterateNodeDoubleLinkList(self.rootList)]
             x = rootListNodes[w]
             d = x.degree
             while A[d] is not None:
@@ -121,13 +124,13 @@ class FibonacciHeap:
             return None
         else:
             startNode = node
-            childList = []
+            levelList = []
             while True:
-                childList.append(node)
+                levelList.append(node)
                 node = node.right
                 if node == startNode:
                     break;
-        return childList
+        return levelList
 
 
 
@@ -170,7 +173,7 @@ class FibonacciHeap:
         y = x.parent
         if y is not None and x.key < y.key:
             self.cut(x,y)
-            self.cascading_cut(y)
+            self.cascadingCut(y)
         if x.key < self.minNode.key:
             self.minNode = x
 
@@ -204,43 +207,23 @@ class FibonacciHeap:
 
 
 
+
 if __name__ == '__main__':
+    pass
 
-    fibonacciHeap = FibonacciHeap();
-
-    fibonacciHeap.insert(10)
-    fibonacciHeap.insert(2)
-    fibonacciHeap.insert(15)
-    fibonacciHeap.insert(6)
-
-    m = fibonacciHeap.findMinNode()
-    print "Minimum Element: " , m.key
-
-    # print "Fibonacci Heap RootList: " , fibonacciHeap.rootList.key
-    # print "Fibonacci Heap RootList Right: " , fibonacciHeap.rootList.right.key
-    # print "Fibonacci Heap RootList Right Right: " , fibonacciHeap.rootList.right.right.key
-    # print "Fibonacci Heap RootList Right Right Right: " , fibonacciHeap.rootList.right.right.right.key
-    # print "Fibonacci Heap RootList Right Right Right Right: " , fibonacciHeap.rootList.right.right.right.right.key
-
-    e = fibonacciHeap.extractMin()
-    print "Removed Minimum Element: " , e.key
-
-    e2 = fibonacciHeap.extractMin()
-    print "Removed Minimum Element: " , e2.key
-
-    fibonacciHeap2 = FibonacciHeap();
-    fibonacciHeap2.insert(100);
-    fibonacciHeap2.insert(56);
-
-    fibonacciHeap3 = fibonacciHeap.union(fibonacciHeap2);
-    x = fibonacciHeap3.rootList.right
-    print "Value of X: " , x.key
-    fibonacciHeap3.decreaseKey(x,1)
-
-    print [x.key for x in fibonacciHeap3.iterateNodeDoubleLinkList(fibonacciHeap3.rootList)]
-
-    q = fibonacciHeap3.extractMin()
-    print "Key of q: " , q.key;
-
+    # fibonacciHeap2 = FibonacciHeap();
+    # fibonacciHeap2.insert(100);
+    # fibonacciHeap2.insert(56);
+    #
+    # fibonacciHeap3 = fibonacciHeap.union(fibonacciHeap2);
+    # x = fibonacciHeap3.rootList.right
+    # print "Value of X: " , x.key
+    # fibonacciHeap3.decreaseKey(x,1)
+    #
+    # print [x.key for x in fibonacciHeap3.iterateNodeDoubleLinkList(fibonacciHeap3.rootList)]
+    #
+    # q = fibonacciHeap3.extractMin()
+    # print "Key of q: " , q.key;
+    #
 
 
