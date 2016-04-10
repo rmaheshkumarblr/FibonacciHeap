@@ -211,19 +211,4 @@ class FibonacciHeap:
 if __name__ == '__main__':
     pass
 
-    # fibonacciHeap2 = FibonacciHeap();
-    # fibonacciHeap2.insert(100);
-    # fibonacciHeap2.insert(56);
-    #
-    # fibonacciHeap3 = fibonacciHeap.union(fibonacciHeap2);
-    # x = fibonacciHeap3.rootList.right
-    # print "Value of X: " , x.key
-    # fibonacciHeap3.decreaseKey(x,1)
-    #
-    # print [x.key for x in fibonacciHeap3.iterateNodeDoubleLinkList(fibonacciHeap3.rootList)]
-    #
-    # q = fibonacciHeap3.extractMin()
-    # print "Key of q: " , q.key;
-    #
-
 
