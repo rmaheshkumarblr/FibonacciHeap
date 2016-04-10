@@ -1,0 +1,111 @@
+For the implementation of the Fibonacci Heap, I created a FibonacciHeap class and a Node class.
+The FibonacciHeap Node class has the following variables:
+\begin{itemize}
+	\item key: Indicates the value of the key(data)
+	\item degree: The number of immediate child nodes
+	\item parent: The parent of the node
+	\item child: The child of the node
+	\item left \& right: The siblings if any are pointed using these pointers (circular, doubly linked list)
+	\item mark: Used for tracking history and restricting the amortized cost for extracting minimum and deleting a node to $O(\lg{n})$  
+\end{itemize}
+The FibonaaciHeap class has the following variables: 
+\begin{itemize}
+	\item rootList: Pointer to a node of the root list
+	\item minNode: Node with the minimum key value
+	\item totalNode: Total number of nodes within the Fibonacci Heap
+\end{itemize}
+The FibonacciHeap class has multiple functions defined, their uses are as follows:
+\subsection{ insert (Insert a node to the Fibonacci Heap) }
+\begin{itemize}
+		\item We create a new node
+		\item Make left and right pointer point to itself
+		\item Call the mergeNewNodeWithRootList function
+		\item If minNode was undefined or it has key greater than the new node, we update minNode to point to the new node
+		\item We increase the totalNode count by 1 indicating that a new node was added to the Fibonacci Heap.
+\end{itemize}
+
+\subsection{ extractMin ( Extracting the Minimum Node ) }
+	\begin{itemize}
+		\item We check if the minNode is undefined or not
+		\item If minNode does exist, we check if the node has child node
+			\begin{itemize}
+			\item If there exist a child Node, then we get the list of all the children using the iterateNodeDoubleLinkList function
+			\item We add all the children to the root list using the mergeNewNodeWithRootList function
+			\end{itemize}
+		\item We remove the minimum node from the root list using the removeFromRootList function
+		\item We update the minNode to a random node in the root list
+		\item We call the consolidate function 
+		\item We decrease the total nodes by 1 as the minimum node is removed from the Fibonacci Heap
+	\end{itemize}
+	
+\subsection{consolidate ( Reduce the number of min-heap trees from the Fibonacci Heap )}
+		\begin{itemize}
+			\item We create an empty list of size ( total number of nodes in the Fibonacci Heap ) called A
+			\item We get all the nodes in the root list using the  iterateNodeDoubleLinkList function
+			\item For each node, we iterate and get it's degree
+			\begin{itemize}
+				\item If the list A, has any node corresponding to the degree
+				\item We figure out which node has lower key value and add the larger key value node as a child to the lower key value node using the heapLink function
+				\item We update the list A with index as degree of the node to empty
+				\item We increment the degree of the node by 1
+			\end{itemize}
+			\item We update the minNode with the node which is minimum among the root list
+		\end{itemize}
+\subsection{decreaseKey ( Decreasing a key and updating the Fibonacci Heap)}
+		\begin{itemize}
+			\item If the min-heap property is violated
+			\begin{itemize}
+				\item We run the cut function
+				\item We run the cascadingCut function
+			\end{itemize}
+			\item We update the minNode appropriately.
+		\end{itemize}
+\subsection{ cut ( If the child node is smaller than its parent after the decrease key operation, we cut the child and bring it back to the root list )}
+		\begin{itemize}
+			\item We call the removeFromChildList function
+			\item We decrease the degree by 1 and call the mergeNewNodeWithRootList function to add the removed child to the root list
+			\item We mark the parent to empty and unmark it when it is added to the root list
+		\end{itemize}
+\subsection{ cascadingCut ( Based on the history ( mark property ), we decide if we need to recursively go up the tree, post a cut operation )}
+		\begin{itemize}
+			\item If the node is not marked, we mark it
+			\item If the node has been marked already, we recursively iterate up to the root or until a node is not marked by calling the cut and cascadingCut function.	
+		\end{itemize}
+\subsection{heapLink ( Remove a node from the rootList and add it as a child to another node of the rootList, maintaining the circular double linked list properties)}
+		\begin{itemize}
+			\item Call the removeFromRootList function for the node that needs to be removed from the root list.
+			\item Call the mergeWithChild function to merge the node as a child of another node
+			\item Increase the degree of the node to which the node is added as child, update hat parent pointer and update the mark to False
+		\end{itemize}
+\subsection{removeFromRootList ( Remove a node from the circular double linked root list )}
+		\begin{itemize}
+			\item If the pointer rootList is pointing to it, update the pointer to another node in the root list
+			\item Update the pointer of the doubly linked list to remove the node
+		\end{itemize}
+\subsection{iterateNodeDoubleLinkList ( Iterating through the circular double linked list for a given node )}
+		\begin{itemize}
+			\item If the node is undefined, return none.
+			\item If the node is defined, iterate through a particular direction of the doubly linked list till we reach back to the original node. 
+			\item Return all the nodes that were traversed through.
+		\end{itemize}
+\subsection{mergeRootListWithExistingRootList ( Joining two circular doubly linked root list )}
+		\begin{itemize}
+			\item Update the pointers to join both the doubly linked lists of root list
+		\end{itemize}
+\subsection{mergeNewNodeWithRootList ( Adding a node to doubly linked root list )}
+		\begin{itemize}
+			\item If the rootList pointer is empty update the pointer to point to the node
+			\item If the rootList pointer is not empty, add the node to the circular doubly linked root list
+		\end{itemize}
+\subsection{mergeWithChild ( Adding a node as the child of a given parent node )}
+		\begin{itemize}
+			\item If the parent has no child, just update the child pointer to point to the node
+			\item If the parent has a child already, update the pointers to add the node to circular doubly linked list that contains all its children.
+		\end{itemize}
+\subsection{removeFromChildList ( Removing a node from its parent )}
+		\begin{itemize}
+			\item If it is the only child, update the parent's child pointer as empty
+			\item If the parent had multiple child, update parent pointer with another child and the child's parent pointer with the parent node
+			\item Update the pointers to remove the node from the circular doubly linked list
+		\end{itemize}
+

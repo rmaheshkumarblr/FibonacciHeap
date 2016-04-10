@@ -1,0 +1,40 @@
+The various operations of the Fibonacci Heaps are as follows:
+\begin{itemize}
+	\item Inserting a node
+	\item Union of Fibonacci Heaps
+	\item Extracting the Minimum Node
+	\item Decreasing a key
+	\item Deleting a node
+\end{itemize}
+
+Let us consider $n$ to be the number of nodes in the Fibonacci Heap.
+
+\subsection{Inserting a node}
+In Fibonacci Heap, inserting a node is $O(1)$ operation since it is equivalent to adding a node to a circular, doubly linked list called the root list. The added node has no children and is unmarked.
+
+\subsection{Union of Fibonacci Heaps}
+In Union operation, the root list of both the Fibonacci Heaps are united  and the new minimum node is determined. The amortized cost of the union operation is $O(1)$ as well.
+
+\subsection{Extracting the Minimum Node}
+In the process of extracting the minimum node, the minimum node is extracted from the Fibonacci Heap. The procedure followed is as follows:
+\begin{itemize}
+	\item The minimum node's children are added to the root list.
+	\item Consolidate the root list by linking roots when they are of equal degree.
+	\item Repeat the previous step until at most one root remains of each degree.
+\end{itemize}
+The amortized cost of extracting a minimum node is $O(\lg{n})$
+
+\subsection{Decreasing a key}
+In this process, we decrease the value of the key for an existing node. If the min-heap order is not violated, no changes are required. If the min-heap order is violated, many changes can occur. The procedure followed is as follows:
+\begin{itemize}
+	\item We cut the node from it's parent.
+	\item Add the node to the root list.
+	\begin{itemize}
+	\item If the parent is not marked: No action taken.
+	\item If the parent was already marked, it would be added to the root list as well and this step occurs recursively up the tree until either a root or an unmarked node is found.
+	\end{itemize}
+\end{itemize}
+The amortized cost of decreasing a key is $O(1)$
+
+\subsection{Deleting a node}
+Deleting a node is equivalent to decreasing a key and then extracting the minimum node for a Fibonacci Heap and hence it has an amortized cost of $O(\lg{n})$

@@ -1,0 +1,144 @@
+We use potential method to analyze the performance of Fibonacci Heap Operations. For a Fibonacci Heap H, let us indicate the number of trees in the root list of H by $t(H)$ and the number of marked nodes in H by $m(H)$. \\ The potential of Fibonacci Heap H is defined by \\
+\begin{center}
+	$\Phi{H} \ = \ t(H) + 2m(H)$
+\end{center}
+Clearly,
+\begin{itemize}
+	\item The potential when there is no heaps is zero.
+	\item The potential is non-negative at all subsequent times.
+	\item The amortized cost upper bounds the actual cost
+\end{itemize}
+
+The Mathematical Analysis for the run time of the various operations are as follows:
+
+\subsection{Inserting a node}
+Initial potential:
+\begin{center}
+	$\Phi{(H)} \ = \ t(H) + 2m(H)$
+\end{center}
+After insertion of a node, let the Fibonacci heap be denoted by $H'$.
+\begin{center}
+$t(H') \ = \ t(H) + 1$ \\
+$m(H') \ = \ m(H)$ \\
+\end{center}
+Increase in potential = New potential - Old potential
+\begin{equation}
+	\begin{split}
+		\triangle{\Phi} &= [t(H')+2m(H')] - [t(H)+2m(H)]
+		\\&= [t(H) + 1 + 2m(H)] - [t(H)+2m(H)]
+		\\&= 1
+	\end{split}
+\end{equation}
+Amortized cost = Actual cost + Increased potential
+\begin{equation}
+\begin{split}
+Amortized \ cost &= O(1) + 1
+\\&= O(1)
+\end{split}
+\end{equation}
+\subsection{Union of Fibonacci Heaps}
+Initial potential:
+\begin{center}
+	$\Phi{(H_1)} \ = \ t(H_1) + 2m(H_1)$ \\
+	$\Phi{(H_2)} \ = \ t(H_2) + 2m(H_2)$
+\end{center}
+Let Fibonacci Heap tree formed by the union of $H_1$ and $H_2$ be denoted by $H'$
+\begin{center}
+$t(H') \ = \ t(H_1) + t(H_2)$ \\
+$m(H') \ = \ m(H_1) + m(H_2)$ \\
+$\Phi{(H')} \ = \ t(H') + 2m(H')$
+\end{center}
+Increase in potential is given by
+\begin{equation}
+	\begin{split}
+		\triangle{\Phi} &= [t(H')+2m(H')] \\ 
+		& - [ (t(H_1) + 2m(H_1)) + (t(H_2) + 2m(H_2)) ]
+		\\&= [ (t(H_1) + 2m(H_1)) + (t(H_2) + 2m(H_2)) ] \\
+		& - [ (t(H_1) + 2m(H_1)) + (t(H_2) + 2m(H_2)) ]
+		\\&= 0
+	\end{split}
+\end{equation}
+Amortized cost = Actual cost + Increased potential
+\begin{equation}
+\begin{split}
+Amortized \ cost &= O(1) + 0
+\\&= O(1)
+\end{split}
+\end{equation}
+\subsection{Extracting the Minimum Node}
+Initial potential:
+\begin{center}
+	$\Phi{(H)} \ = \ t(H) + 2m(H)$
+\end{center}
+The actual cost of extracting the minimum node can be accounted as follows: 
+\begin{itemize}
+	\item An $O(D(n))$ contribution comes from there being at most $D(n)$ children of the minimum node that are added to the root list and processed.\\
+	\item The size of the root list on calling the consolidate function is at most $D(n)+t(H)-1$, since there were originally $t(H)$ trees, at most $D(n)$ of nodes can be the children to the node that is being extracted and one $(1)$ since that is the node that is being extracted. Thus the total actual work done in extracting the minimum node is $O(D(n)+t(H))$
+\end{itemize}
+The change in potential is given as follows:
+\begin{itemize}
+	\item Potential at most, post extracting the node is \\ $(D(n)+1 + 2m(H))$, since at most $D(n)+1$ roots remain and no nodes become marked during the operation.
+\end{itemize}
+Amortized cost = Actual cost + Increased potential
+\begin{equation}
+\begin{split}
+Amortized \ cost &= O(D(n)+t(H)) \\
+& + [ [(D(n)+1+2m(H)] - [t(H)+2m(H)] ]
+\\&= O(D(n)) + O(t(H)) + D(n) + 1 -t(H)
+\\&= O(D(n))
+\end{split}
+\end{equation}
+\subsection{Decreasing a key}
+Initial potential:
+\begin{center}
+	$\Phi{(H)} \ = \ t(H) + 2m(H)$
+\end{center}
+The actual cost for decreasing a key can be accounted as follows: 
+\begin{itemize}
+	\item It takes $O(1)$ time, plus the time to perform cascading cuts.
+	\item Suppose the cascading cut is recursively called $c$ times and each call takes $O(1)$ time exclusive of recursive call, it takes $O(c)$ including all recursive call.
+\end{itemize}
+The change in potential is given as follows:
+\begin{itemize}
+	\item Each recursive call of cascading cut, except for the last one, cuts a marked node and clears the marked bit.
+	\item There are hence, $(t(H) + c)$ trees
+	\item There are at most $( m(H) - c + 2 )$ marked nodes
+\end{itemize}
+Amortized cost = Actual cost + Increased potential
+\begin{equation}
+	\begin{split}
+		Amortized \ cost &= O(c) \\
+		& + [ (t(H) + c) + 2(m(H) - c + 2) - [t(H)+2m(H)] ]
+		\\&= O(c) - c + 4
+		\\&= O(1)
+	\end{split}
+\end{equation}
+\subsection{Deleting a node}
+Deleting a node is equivalent to decreasing a key and then extracting the minimum.\\
+Hence, 
+\begin{equation}
+	\begin{split}
+		Amortized \ cost &= O(D(n)) + O(1)\\
+		\\&= O(D(n))
+	\end{split}
+\end{equation}
+\subsection{Bounding the maximum degree}
+To show that the Extracting the minimum node operation and the Deleting a node operation takes $O(\lg{n})$ we need to prove that the upper bound of $D(n)$ on the degree of any node of a $n$-node Fibonacci heap is $O(\lg{n})$. \\ \\
+Let x be any node in a Fibonacci Heap, and suppose the $degree[x] = k $. If $y_1, y_2, y_3,...,y_k$ denote the children of $x$ in the order in which they were linked to $x$, from the earliest to the latest. Then, $degree[y_1] \geq \ 0$ and $degree[y_i] \geq \ i - 2$ for $i=2,3,...,k$ because when $y_i$ was linked to $x$, all of $y_1,y_2,...,y_{i-1}$ were children of $x$, so we must have had $degree[x] \geq \ i-1$. Node $y_i$ is linked to $x_i$ only if their degree are the same and hence $degree[y_i] = degree[x] \geq i - 1$. Since then, $y_i$ has lost at most one child, since it would have been cut from x if it had lost two children. We conclude that $degree[y_i] \geq i-2$\\ \\
+From the property of Fibonacci number: We have
+\begin{center}
+	$F_{k} = 0 \ if \ k=0$\\
+	$F_{k} = 1 \ if \ k=1$\\
+	$F_{k} = F_{k-1}+F_{k+2} \ if \ k \geq 2$\\
+\end{center}
+For all integers $k \geq 0$ indicate the smallest possible tree of degree k , we get number of nodes in the sequence of Fibonacci numbers using the Fibonacci property: $n \geq \Phi^{k}$, where $\Phi \approxeq 1.1618$ and is the golden ratio. $F_{k+2} \geq \Phi^{k}$\\ \\
+For any node in a Fibonacci heap, let $k=degree[x]$. Then, we can show that the $size(x) \geq F_{k+2} \geq \Phi^{k}, \ \\where \ \Phi = \frac{(1+\sqrt{5})}{2} .$ \\ \\
+Assuming the number of nodes as $n$.Taking base-$\Phi$ log on both the sides,we get $k \leq \log_{\Phi}{n}$.\\ The maximum degree $D(n)$ of any node is thus $O(\lg{n})$.  
+
+
+
+
+
+
+
+
