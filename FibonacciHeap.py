@@ -207,8 +207,3 @@ class FibonacciHeap:
 
 
 
-
-if __name__ == '__main__':
-    pass
-
-
