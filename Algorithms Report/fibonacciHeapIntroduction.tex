@@ -2,4 +2,11 @@ Fibonacci Heap is a data structure that is generally used for priority queue ope
 
 Fibonacci heap is a collection of min-heap-ordered trees (The data contained in each node is less than or equal to the data  in the node's children). In Fibonacci heaps, the trees are rooted but unordered. Each node contains a pointer to its parent and a pointer to any one of its children. The children are linked together in a circular, doubly linked list. The order in which the siblings appear in a child list is arbitrary. The number of children in the child list of a node is stored as degree. Boolean value is used to mark a node which indicates whether  the node has lost a child since the last time it was made the child of another node.\\
 
-\includegraphics[scale=0.5]{Figures/FibonacciHeap}
+\begin{figure}
+	\includegraphics[width=0.95\columnwidth]{Figures/FibonacciHeap}
+	\caption{Fibonacci Heap Example}
+\end{figure}
+
+For simplicity, the future figures won't have the representation of the doubly, linked list left and right pointer. I will be representing just the parent pointer. The orange layer indicates the root list.
+
+
