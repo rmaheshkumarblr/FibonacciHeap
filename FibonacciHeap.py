@@ -205,5 +205,9 @@ class FibonacciHeap:
                 self.cut(y,z)
                 self.cascadingCut(z)
 
-
+    # Deleting a node
+    def deleteNode(self,x):
+        self.decreaseKey(x,-float("inf"))
+        removedElement = self.extractMin()
+        return removedElement
 
