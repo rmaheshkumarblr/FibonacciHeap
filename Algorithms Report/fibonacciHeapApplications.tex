@@ -1,0 +1,7 @@
+Generally in Network Optimization, the number of deletion operations is relatively small. Thus, Fibonacci Heaps can be used to obtain asymptotically faster algorithms. It is used in the following implementations ~\cite{fredman1987fibonacci} (Let $n$ be the number of vertices and $m$ be the number of edges):
+\begin{itemize}
+	\item Dijkstra's algorithm for the single-source shortest path program with non-negative edges. It improves the time bound to $O(n \log{n} + m)$  from previously best known time bound $O(m\log_{\frac{m}{n+2}}n)$
+	\item All-pairs shortest path problem had a improvement of time bound to $O(n^2\log{n} + nm)$ from \\ $O(nm\log_{\frac{m}{n+2}}n)$
+	\item Weight bipartite matching had improvement of time to $O(n^2\log{n} + nm)$ from $O(nm\log_{\frac{m}{n+2}}n$
+	\item Minimum spanning tree problem had an improvement to $O(m\beta(m,n))$ from $O(m\log{\log_{\frac{m}{n+2}}n})$, where $\beta(m,n) = min\{i|\log^{(i)}n\} \leq \frac{m}{n}$. Note that $\beta(m,n) \leq \log^{*}n \ if \ m \geq n $
+\end{itemize}
