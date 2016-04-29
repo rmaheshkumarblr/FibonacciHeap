@@ -12,7 +12,7 @@ The various operations of the Fibonacci Heaps are as follows:
 Let us consider $n$ to be the number of nodes in the Fibonacci Heap.
 
 \subsection{Inserting a node}
-In Fibonacci Heap, inserting a node is $O(1)$ operation since it is equivalent to adding a node to a circular, doubly linked list called the root list Figure~\ref{fig:Insertion1} and Figure~\ref{fig:Insertion2} . The added node has no children and is unmarked.
+In Fibonacci Heap, inserting a node is $O(1)$ operation since it is equivalent to adding a node to a circular doubly linked list called the root list Figure~\ref{fig:Insertion1} and Figure~\ref{fig:Insertion2} . The added node has no children and is unmarked.
 \begin{figure}[H]
 	\includegraphics[scale=0.75]{Figures/FibonacciHeapBeforeInsertionOperation}
 	\caption{Fibonacci Heap before Insertion}
@@ -124,4 +124,4 @@ The amortized cost of decreasing a key is $O(1)$
 
 
 \subsection{Deleting a node}
-Deleting a node is equivalent to decreasing a key to -$ \infty $ and then extracting the minimum node (The node which whose key was updated to -$ \infty $ ) for a Fibonacci Heap and hence it has an amortized cost of $O(\lg{n})$ \\ \\ 
+Deleting a node is equivalent to decreasing a key to -$ \infty $ and then extracting the minimum node (The node whose key was updated to -$ \infty $ ) for a Fibonacci Heap and hence it has an amortized cost of $O(\lg{n})$ \\ \\ 

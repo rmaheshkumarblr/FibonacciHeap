@@ -1,6 +1,6 @@
 We use potential method to analyze the performance of Fibonacci Heap Operations. For a Fibonacci Heap H, let us indicate the number of trees in the root list of H by $t(H)$ and the number of marked nodes in H by $m(H)$. \\ The potential of Fibonacci Heap H is defined by \\
 \begin{center}
-	$\Phi{H} \ = \ t(H) + 2m(H)$
+	$\Phi{(H)} \ = \ t(H) + 2m(H)$
 \end{center}
 Clearly,
 \begin{itemize}
@@ -134,12 +134,12 @@ From the property of Fibonacci number: We have
 For all integers $k \geq 0$ indicate the smallest possible tree of degree k , we get number of nodes in the sequence of Fibonacci numbers using the Fibonacci property: $n \geq \Phi^{k}$, where $\Phi \approxeq 1.1618$ and is the golden ratio. $F_{k+2} \geq \Phi^{k}$\\ \\
 For any node in a Fibonacci heap, let $k=degree[x]$. Then, we can show that the $size(x) \geq F_{k+2} \geq \Phi^{k}, \ \\where \ \Phi = \frac{(1+\sqrt{5})}{2} .$ \\ \\
 Assuming the number of nodes as $n$.Taking base-$\Phi$ log on both the sides,we get $k \leq \log_{\Phi}{n}$.\\ The maximum degree $D(n)$ of any node is thus $O(\lg{n})$. 
-
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\
 \begin{center}
 	\textbf{Time Complexity for Fibonacci Heap Operations}
  \begin{tabular}{c c c c||} 
  \hline
- Operation & Time Complexity \\ [0.5ex] 
+ Operation \& Time Complexity \\ [0.5ex] 
  \hline\hline
  Find Min & $O(1)$ \\ 
  \hline
@@ -154,7 +154,7 @@ Assuming the number of nodes as $n$.Taking base-$\Phi$ log on both the sides,we 
  Delete & $O(\lg{n})*$ \\ [1ex] 
  \hline
 \end{tabular}\\
-$*$ indicates amortised
+$*$ indicates amortized
 \end{center}
 
 
