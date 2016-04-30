@@ -12,7 +12,7 @@ nRange1 = []
 fibonacciHeap = FibonacciHeap.FibonacciHeap()
 for i in xrange(0,len(nRange)):
     overallTime = 0
-    r = randint(1,10)
+    r = randint(1,10000000)
     for j in xrange(0,nRange[i]):
         n += 1
         start_time = time.time()
@@ -23,9 +23,8 @@ for i in xrange(0,len(nRange)):
     fibonacciHeap.decreaseKey(fibonacciHeap.rootList,1)
     end_time = time.time()
     overallTime +=  (end_time - start_time)
-    if ( overallTime/nRange[i] <= 0.00001 ):
-        t.append(overallTime/nRange[i])
-        nRange1.append(n)
+    t.append(overallTime/nRange[i])
+    nRange1.append(n)
     print "Time taken for " , n , " nodes is " , end_time - start_time , " seconds"
 
 
