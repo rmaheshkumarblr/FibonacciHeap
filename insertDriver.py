@@ -6,7 +6,7 @@ import numpy as np
 
 t = []
 
-nRange = np.arange(1,100000,1000,dtype=int)
+nRange = np.arange(0,100000,1000,dtype=int)
 
 
 for n in nRange:
@@ -16,14 +16,17 @@ for n in nRange:
         fibonacciHeap.insert(r)
     r = randint(1,1000000)
     start_time = time.time()
+
     fibonacciHeap.insert(r)
     end_time = time.time()
     print "Time taken for " , n , " nodes is " , end_time - start_time , " seconds"
     t.append(end_time - start_time)
 
 axes = plt.gca()
-axes.set_ylim([0,0.001])
-axes.plot(nRange,t,alpha=1 ,color='r', label="Insert -> O(1)",marker=".")
+axes.set_ylim([0,0.0001])
+upperBound = [0.00002 ] * len(t)
+axes.plot(nRange,upperBound,alpha=1 ,color='b',label="Upper Bound: 0.00002")
+axes.plot(nRange,t,alpha=1 ,color='r', label="Insert - O(1)",marker=".")
 plt.xlabel('Number of Nodes in the Fibonacci Heap when the Insertion occurred')
 plt.ylabel('Time in Seconds')
 plt.legend(loc=2)
